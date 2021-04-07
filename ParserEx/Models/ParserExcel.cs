@@ -16,6 +16,32 @@ namespace ParserEx.Models
             PathFile = path;
         }
 
+        public static void BaseParsev20() // та функция, которую нашла
+        {
+            Excel.Application xlApp = new Excel.Application(); //Excel
+            Excel.Workbook xlWB; //рабочая книга откуда будем копировать лист  
+            Excel.Worksheet xlSht; //лист Excel
+            xlWB = xlApp.Workbooks.Open(@"C:\Users\galkinam\source\repos\ExcelParser0604\тестовые2.xls"); //название файла Excel откуда будем копировать лист
+            xlSht = xlWB.Worksheets["Лист1"]; //название листа или 1-й лист в книге xlSht = xlWB.Worksheets[1];
+
+            xlSht.Range["A1:A10"].Copy(); //копируем диапазон ячеек
+
+
+            //нужная строчка!!!
+            xlSht.Range["D1"].PasteSpecial(Excel.XlPasteType.xlPasteAll); //вставить всё (формулы, форматы и т.д.)
+            
+            //xlSht.Range["D1"].PasteSpecial(Excel.XlPasteType.xlPasteValues); //вставить только значения
+                                                                             //xlSht.Range["D1"].PasteSpecial(Excel.XlPasteType.xlPasteAll); //вставить всё (формулы, форматы и т.д.)
+                                                                             //xlSht.Range["D1"].PasteSpecial(Excel.XlPasteType.xlPasteFormulas); //вставить только формулы
+                                                                             //xlSht.Range["D1"].PasteSpecial(Excel.XlPasteType.xlPasteFormats); //вставить только форматирование (заливка, граница, форматы ячеек и т.д.
+
+            //xlApp.Visible = true; //отображаем Excel
+            xlWB.Close(true); //true - сохранить изменения, false - не сохранять изменения в файле 
+            xlApp.Quit(); //закрываем Excel
+            GC.Collect();
+            MessageBox.Show("Данные скопированы", "Excel", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         public static void BaseParse()
         {
             //считываем данные из Excel файла в двумерный массив
@@ -30,7 +56,7 @@ namespace ParserEx.Models
             for (int i = 1; i < iLastRow; i++)
             {
                 var cell = xlSht.Cells[i, 1] as Excel.Range;
-                if ( cell.Value == "РАСЧЕТНЫЙ ЛИСТОК ЗА АПРЕЛЬ 2020 (ЗА ПЕРВУЮ ПОЛОВИНУ МЕСЯЦА)")
+                if ( cell.Value == "РАСЧЕТНЫЙ ЛИСТОК ЗА МАРТ 2021")
                 {
                     indexRow.Add(i);
                 }
